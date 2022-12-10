@@ -11,7 +11,8 @@ route.route('/views')
     .put(portfolio_services_1.default.additionViews);
 route.route('/likes')
     .get(portfolio_services_1.default.getLikes)
-    .put(portfolio_services_1.default.additionLike);
+    .put(portfolio_services_1.default.additionLike)
+    .delete(portfolio_services_1.default.subtractionLike);
 route.route('/skills')
     .get(portfolio_services_1.default.getAllSkills)
     .post(portfolio_services_1.default.createSkill)

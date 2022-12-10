@@ -49,6 +49,15 @@ const additionLike = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(400).json({ message: error === null || error === void 0 ? void 0 : error.message });
     }
 });
+const subtractionLike = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const likes = yield portfolio_controllers_1.default.subtractionLike();
+        res.status(200).json({ likes });
+    }
+    catch (error) {
+        res.status(400).json({ message: error === null || error === void 0 ? void 0 : error.message });
+    }
+});
 const getAllSkills = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const skills = yield portfolio_controllers_1.default.getAllSkills();
@@ -92,6 +101,7 @@ exports.default = {
     additionViews,
     getLikes,
     additionLike,
+    subtractionLike,
     getAllSkills,
     createSkill,
     deleteSkill

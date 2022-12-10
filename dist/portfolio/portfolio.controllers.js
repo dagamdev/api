@@ -35,6 +35,14 @@ const additionLike = () => __awaiter(void 0, void 0, void 0, function* () {
     yield portfolio.save();
     return portfolio === null || portfolio === void 0 ? void 0 : portfolio.likes;
 });
+const subtractionLike = () => __awaiter(void 0, void 0, void 0, function* () {
+    const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
+    if (!portfolio)
+        return;
+    portfolio.likes--;
+    yield portfolio.save();
+    return portfolio.likes;
+});
 const getAllSkills = () => __awaiter(void 0, void 0, void 0, function* () {
     const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
     return portfolio === null || portfolio === void 0 ? void 0 : portfolio.skills;
@@ -56,6 +64,7 @@ exports.default = {
     additionViews,
     getLikes,
     additionLike,
+    subtractionLike,
     getAllSkills,
     createSkill,
     deleteSkill
