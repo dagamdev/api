@@ -68,17 +68,19 @@ const getDiscordMe = (id) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const server = client_1.client.guilds.cache.get('1064289165879025836');
     const member = server === null || server === void 0 ? void 0 : server.members.cache.get(id);
-    // console.log({member})
     const presence = member === null || member === void 0 ? void 0 : member.presence;
     const activities = (_a = member === null || member === void 0 ? void 0 : member.presence) === null || _a === void 0 ? void 0 : _a.activities.map((m) => { var _a; return (Object.assign(Object.assign({}, m), { emoji: (_a = m.emoji) === null || _a === void 0 ? void 0 : _a.name })); });
-    // console.log({presence})
     const user = yield (0, axios_1.default)('https://discord.com/api/v10/users/@me', {
         headers: {
             'Authorization': `${config_1.discord}`
         }
     });
-    // console.log({user: user.data})
     return Object.assign(Object.assign(Object.assign({}, user.data), { presence: Object.assign(Object.assign({}, presence), { activities }) }), member);
+});
+const getAbout = () => __awaiter(void 0, void 0, void 0, function* () {
+    const channel = client_1.client.channels.cache.get('1090725845427048589');
+    if (channel === null || channel === void 0 ? void 0 : channel.isTextBased())
+        return (yield channel.messages.fetch('1090725868797702307')).content;
 });
 exports.default = {
     getViews,
@@ -89,5 +91,6 @@ exports.default = {
     getAllSkills,
     createSkill,
     deleteSkill,
-    getDiscordMe
+    getDiscordMe,
+    getAbout
 };

@@ -18,4 +18,5 @@ route.route('/skills')
     .post(portfolio_services_1.default.createSkill)
     .delete(portfolio_services_1.default.deleteSkill);
 route.get('/user/:id', portfolio_services_1.default.getDiscordMe);
+route.get('/about', portfolio_services_1.default.getAbout);
 exports.default = route;

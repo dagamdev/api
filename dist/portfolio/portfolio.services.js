@@ -106,6 +106,15 @@ const getDiscordMe = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(400).json({ message: error === null || error === void 0 ? void 0 : error.message });
     }
 });
+const getAbout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = yield portfolio_controllers_1.default.getAbout();
+        res.status(200).json(data);
+    }
+    catch (error) {
+        res.status(400).json({ message: error === null || error === void 0 ? void 0 : error.message });
+    }
+});
 exports.default = {
     getViews,
     additionViews,
@@ -115,5 +124,6 @@ exports.default = {
     getAllSkills,
     createSkill,
     deleteSkill,
-    getDiscordMe
+    getDiscordMe,
+    getAbout
 };
