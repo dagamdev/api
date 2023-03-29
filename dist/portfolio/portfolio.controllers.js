@@ -8,9 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const models_1 = require("../models");
 const config_1 = require("../config");
+const client_1 = require("../client");
+const axios_1 = __importDefault(require("axios"));
 const getViews = () => __awaiter(void 0, void 0, void 0, function* () {
     const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
     return portfolio === null || portfolio === void 0 ? void 0 : portfolio.views;
@@ -59,6 +64,22 @@ const deleteSkill = (index) => __awaiter(void 0, void 0, void 0, function* () {
     portfolio === null || portfolio === void 0 ? void 0 : portfolio.save();
     return portfolio === null || portfolio === void 0 ? void 0 : portfolio.skills;
 });
+const getDiscordMe = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const server = client_1.client.guilds.cache.get('1064289165879025836');
+    const member = server === null || server === void 0 ? void 0 : server.members.cache.get(id);
+    // console.log({member})
+    const presence = member === null || member === void 0 ? void 0 : member.presence;
+    const activities = (_a = member === null || member === void 0 ? void 0 : member.presence) === null || _a === void 0 ? void 0 : _a.activities.map((m) => { var _a; return (Object.assign(Object.assign({}, m), { emoji: (_a = m.emoji) === null || _a === void 0 ? void 0 : _a.name })); });
+    // console.log({presence})
+    const user = yield (0, axios_1.default)('https://discord.com/api/v10/users/@me', {
+        headers: {
+            'Authorization': `${config_1.discord}`
+        }
+    });
+    // console.log({user: user.data})
+    return Object.assign(Object.assign(Object.assign({}, user.data), { presence: Object.assign(Object.assign({}, presence), { activities }) }), member);
+});
 exports.default = {
     getViews,
     additionViews,
@@ -67,5 +88,6 @@ exports.default = {
     subtractionLike,
     getAllSkills,
     createSkill,
-    deleteSkill
+    deleteSkill,
+    getDiscordMe
 };

@@ -96,6 +96,16 @@ const deleteSkill = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.status(400).json({ message: error === null || error === void 0 ? void 0 : error.message });
     }
 });
+const getDiscordMe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const data = yield portfolio_controllers_1.default.getDiscordMe(id);
+        res.status(200).json(Object.assign({ presence: data === null || data === void 0 ? void 0 : data.presence }, data));
+    }
+    catch (error) {
+        res.status(400).json({ message: error === null || error === void 0 ? void 0 : error.message });
+    }
+});
 exports.default = {
     getViews,
     additionViews,
@@ -104,5 +114,6 @@ exports.default = {
     subtractionLike,
     getAllSkills,
     createSkill,
-    deleteSkill
+    deleteSkill,
+    getDiscordMe
 };
