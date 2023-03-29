@@ -1,6 +1,6 @@
 {
   "name": "my-api",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "My api para mi portafolio",
   "main": "dist/app.js",
   "scripts": {
