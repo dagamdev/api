@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.status = exports.client = void 0;
 const discord_js_1 = require("discord.js");
 const config_1 = require("./config");
-exports.client = new discord_js_1.Client({ intents: 131071, presence: { status: 'dnd' } });
+exports.client = new discord_js_1.Client({ intents: 131071 });
 exports.status = 'offline';
 exports.client.once('ready', () => {
     var _a;
