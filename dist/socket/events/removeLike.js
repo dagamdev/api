@@ -9,17 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addLikesEvent = void 0;
-const config_1 = require("../config");
-const models_1 = require("../models");
-const addLikesEvent = (socket) => __awaiter(void 0, void 0, void 0, function* () {
+exports.removeLikeEvent = void 0;
+const config_1 = require("../../config");
+const models_1 = require("../../models");
+const removeLikeEvent = (socket) => __awaiter(void 0, void 0, void 0, function* () {
     const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
-    if (portfolio) {
-        portfolio.likes++;
+    if (portfolio === null || portfolio === void 0 ? void 0 : portfolio.likes) {
+        portfolio.likes--;
         socket.broadcast.emit('like', portfolio.likes);
         yield portfolio.save();
     }
     else
         socket.broadcast.emit('like', 0);
 });
-exports.addLikesEvent = addLikesEvent;
+exports.removeLikeEvent = removeLikeEvent;

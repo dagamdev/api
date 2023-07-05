@@ -22,11 +22,12 @@ const getViews = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 const additionViews = () => __awaiter(void 0, void 0, void 0, function* () {
     const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
-    if (!portfolio)
-        return;
-    portfolio.views++;
-    yield portfolio.save();
-    return portfolio.views;
+    if (portfolio && portfolio.views) {
+        portfolio.views++;
+        yield portfolio.save();
+        return portfolio.views;
+    }
+    return 0;
 });
 const getLikes = () => __awaiter(void 0, void 0, void 0, function* () {
     const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
@@ -34,19 +35,22 @@ const getLikes = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 const additionLike = () => __awaiter(void 0, void 0, void 0, function* () {
     const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
-    if (!portfolio)
-        return;
-    portfolio.likes++;
-    yield portfolio.save();
-    return portfolio === null || portfolio === void 0 ? void 0 : portfolio.likes;
+    if (portfolio && portfolio.likes) {
+        portfolio.likes++;
+        yield portfolio.save();
+        return portfolio === null || portfolio === void 0 ? void 0 : portfolio.likes;
+    }
+    return 0;
 });
 const subtractionLike = () => __awaiter(void 0, void 0, void 0, function* () {
     const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
-    if (!portfolio)
-        return;
-    portfolio.likes--;
-    yield portfolio.save();
-    return portfolio.likes;
+    if (portfolio === null || portfolio === void 0 ? void 0 : portfolio.likes) {
+        portfolio;
+        portfolio.likes--;
+        yield portfolio.save();
+        return portfolio.likes;
+    }
+    return 0;
 });
 const getAllSkills = () => __awaiter(void 0, void 0, void 0, function* () {
     const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
@@ -66,19 +70,19 @@ const deleteSkill = (index) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const getDiscordMe = (id) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    const server = client_1.client.guilds.cache.get('1064289165879025836');
+    const server = client_1.MyBot.guilds.cache.get('1064289165879025836');
     const member = server === null || server === void 0 ? void 0 : server.members.cache.get(id);
     const presence = member === null || member === void 0 ? void 0 : member.presence;
     const activities = (_a = member === null || member === void 0 ? void 0 : member.presence) === null || _a === void 0 ? void 0 : _a.activities.map((m) => { var _a; return (Object.assign(Object.assign({}, m), { emoji: (_a = m.emoji) === null || _a === void 0 ? void 0 : _a.name })); });
     const user = yield (0, axios_1.default)('https://discord.com/api/v10/users/@me', {
         headers: {
-            'Authorization': `${config_1.discord}`
+            'Authorization': `${config_1.DISCORD}`
         }
     });
     return Object.assign(Object.assign(Object.assign({}, user.data), { presence: Object.assign(Object.assign({}, presence), { activities }) }), member);
 });
 const getAbout = () => __awaiter(void 0, void 0, void 0, function* () {
-    const channel = client_1.client.channels.cache.get('1090725845427048589');
+    const channel = client_1.MyBot.channels.cache.get('1090725845427048589');
     if (channel === null || channel === void 0 ? void 0 : channel.isTextBased())
         return (yield channel.messages.fetch('1090725868797702307')).content;
 });

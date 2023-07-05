@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.appId = exports.discord = exports.secret = exports.connectMongo = exports.port = void 0;
+exports.PATH_PREFIX = exports.appId = exports.DISCORD = exports.SECRET = exports.CONNECT_MONGO = exports.PORT = void 0;
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
-exports.port = process.env.PORT;
-exports.connectMongo = process.env.MONGO_CONECT;
-exports.secret = process.env.SECRET;
-exports.discord = process.env.DISCORD;
+exports.PORT = process.env.PORT;
+exports.CONNECT_MONGO = process.env.MONGO_CONECT;
+exports.SECRET = process.env.SECRET;
+exports.DISCORD = process.env.DISCORD;
 exports.appId = '09012004';
+exports.PATH_PREFIX = '/api/v1/';
