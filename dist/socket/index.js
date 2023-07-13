@@ -11,7 +11,8 @@ const connection_1 = require("./events/connection");
 exports.server = http_1.default.createServer(app_1.app);
 const io = new socket_io_1.Server(exports.server, {
     cors: {
-        origin: ['http://localhost:3000']
+        origin: ['http://localhost:3000'],
+        credentials: true
     }
 });
 io.on('connection', connection_1.connnectionEvent);

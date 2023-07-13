@@ -13,7 +13,7 @@ exports.removeLikeEvent = void 0;
 const config_1 = require("../../config");
 const models_1 = require("../../models");
 const removeLikeEvent = (socket) => __awaiter(void 0, void 0, void 0, function* () {
-    const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
+    const portfolio = yield models_1.portfolioModel.findById(config_1.APP_ID);
     if (portfolio === null || portfolio === void 0 ? void 0 : portfolio.likes) {
         portfolio.likes--;
         socket.broadcast.emit('like', portfolio.likes);

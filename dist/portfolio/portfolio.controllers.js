@@ -17,11 +17,11 @@ const config_1 = require("../config");
 const client_1 = require("../client");
 const axios_1 = __importDefault(require("axios"));
 const getViews = () => __awaiter(void 0, void 0, void 0, function* () {
-    const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
+    const portfolio = yield models_1.portfolioModel.findById(config_1.APP_ID);
     return portfolio === null || portfolio === void 0 ? void 0 : portfolio.views;
 });
 const additionViews = () => __awaiter(void 0, void 0, void 0, function* () {
-    const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
+    const portfolio = yield models_1.portfolioModel.findById(config_1.APP_ID);
     if (portfolio && portfolio.views) {
         portfolio.views++;
         yield portfolio.save();
@@ -30,11 +30,11 @@ const additionViews = () => __awaiter(void 0, void 0, void 0, function* () {
     return 0;
 });
 const getLikes = () => __awaiter(void 0, void 0, void 0, function* () {
-    const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
+    const portfolio = yield models_1.portfolioModel.findById(config_1.APP_ID);
     return portfolio === null || portfolio === void 0 ? void 0 : portfolio.likes;
 });
 const additionLike = () => __awaiter(void 0, void 0, void 0, function* () {
-    const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
+    const portfolio = yield models_1.portfolioModel.findById(config_1.APP_ID);
     if (portfolio && portfolio.likes) {
         portfolio.likes++;
         yield portfolio.save();
@@ -43,7 +43,7 @@ const additionLike = () => __awaiter(void 0, void 0, void 0, function* () {
     return 0;
 });
 const subtractionLike = () => __awaiter(void 0, void 0, void 0, function* () {
-    const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
+    const portfolio = yield models_1.portfolioModel.findById(config_1.APP_ID);
     if (portfolio === null || portfolio === void 0 ? void 0 : portfolio.likes) {
         portfolio;
         portfolio.likes--;
@@ -53,17 +53,17 @@ const subtractionLike = () => __awaiter(void 0, void 0, void 0, function* () {
     return 0;
 });
 const getAllSkills = () => __awaiter(void 0, void 0, void 0, function* () {
-    const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
+    const portfolio = yield models_1.portfolioModel.findById(config_1.APP_ID);
     return portfolio === null || portfolio === void 0 ? void 0 : portfolio.skills;
 });
 const createSkill = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
+    const portfolio = yield models_1.portfolioModel.findById(config_1.APP_ID);
     portfolio === null || portfolio === void 0 ? void 0 : portfolio.skills.push(data);
     yield (portfolio === null || portfolio === void 0 ? void 0 : portfolio.save());
     return portfolio === null || portfolio === void 0 ? void 0 : portfolio.skills;
 });
 const deleteSkill = (index) => __awaiter(void 0, void 0, void 0, function* () {
-    const portfolio = yield models_1.portfolioModel.findById(config_1.appId);
+    const portfolio = yield models_1.portfolioModel.findById(config_1.APP_ID);
     portfolio === null || portfolio === void 0 ? void 0 : portfolio.skills.splice(index, 1);
     portfolio === null || portfolio === void 0 ? void 0 : portfolio.save();
     return portfolio === null || portfolio === void 0 ? void 0 : portfolio.skills;
@@ -76,7 +76,7 @@ const getDiscordMe = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const activities = (_a = member === null || member === void 0 ? void 0 : member.presence) === null || _a === void 0 ? void 0 : _a.activities.map((m) => { var _a; return (Object.assign(Object.assign({}, m), { emoji: (_a = m.emoji) === null || _a === void 0 ? void 0 : _a.name })); });
     const user = yield (0, axios_1.default)('https://discord.com/api/v10/users/@me', {
         headers: {
-            'Authorization': `${config_1.DISCORD}`
+            'Authorization': `${config_1.ENVIRONMENTS.DISCORD}`
         }
     });
     return Object.assign(Object.assign(Object.assign({}, user.data), { presence: Object.assign(Object.assign({}, presence), { activities }) }), member);

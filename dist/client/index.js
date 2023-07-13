@@ -32,4 +32,4 @@ exports.MyBot.on("shardError", (err) => __awaiter(void 0, void 0, void 0, functi
 process.on("unhandledRejection", (err) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(err);
 }));
-exports.MyBot.login(config_1.SECRET);
+exports.MyBot.login(config_1.ENVIRONMENTS.SECRET);
