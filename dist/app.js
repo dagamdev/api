@@ -27,6 +27,7 @@ exports.app.use((0, express_session_1.default)({
         maxAge: 24 * 60 * 60000,
         domain: 'localhost',
         // secure: ENVIRONMENTS.DEVELOPING ? false : true,
+        sameSite: 'none'
     },
     store: connect_mongo_1.default.create({
         mongoUrl: config_1.ENVIRONMENTS.CONNECT_MONGO
