@@ -8,10 +8,11 @@ const socket_io_1 = require("socket.io");
 const http_1 = __importDefault(require("http"));
 const app_1 = require("../app");
 const connection_1 = require("./events/connection");
+const config_1 = require("@/config");
 exports.server = http_1.default.createServer(app_1.app);
 const io = new socket_io_1.Server(exports.server, {
     cors: {
-        origin: ['http://localhost:3000'],
+        origin: config_1.ORIGINS,
         credentials: true
     }
 });

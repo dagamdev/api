@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PATH_PREFIX = exports.APP_ID = exports.ENVIRONMENTS = void 0;
+exports.ORIGINS = exports.PATH_PREFIX = exports.APP_ID = exports.ENVIRONMENTS = void 0;
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
 exports.ENVIRONMENTS = {
@@ -17,3 +17,7 @@ exports.ENVIRONMENTS = {
 };
 exports.APP_ID = '09012004';
 exports.PATH_PREFIX = '/api/v1/';
+exports.ORIGINS = [
+    'https://dg-my-portfolio.vercel.app/',
+    'http://localhost:3000'
+];
