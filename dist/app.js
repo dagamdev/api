@@ -16,7 +16,8 @@ const qutool_routes_1 = __importDefault(require("./Qutool/qutool.routes"));
 exports.app = (0, express_1.default)();
 exports.app.use(express_1.default.json());
 exports.app.use((0, cors_1.default)({
-    origin: config_1.ORIGINS
+    origin: config_1.ORIGINS,
+    credentials: true
 }));
 exports.app.use((0, express_session_1.default)({
     name: 'qutool-discord-oauth2',
