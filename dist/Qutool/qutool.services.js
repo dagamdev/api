@@ -19,11 +19,12 @@ exports.default = {
     authRedierect(req, res) {
         res.redirect(`${config_1.ENVIRONMENTS.PAGE_DOMAIN}/dashboard`);
     },
-    authLogout(req, res) {
-        req.logout((e) => {
-            console.error(e);
+    authLogout(req, res, next) {
+        req.logout((error) => {
+            if (error)
+                return next(error);
+            res.redirect(`${config_1.ENVIRONMENTS.PAGE_DOMAIN}`);
         });
-        res.redirect(`${config_1.ENVIRONMENTS.PAGE_DOMAIN}`);
     },
     getUser(req, res) {
         res.json(req.user);
