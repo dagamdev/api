@@ -25,7 +25,7 @@ exports.app.use((0, express_session_1.default)({
     saveUninitialized: false,
     cookie: {
         maxAge: 24 * 60 * 60000,
-        domain: 'localhost',
+        domain: 'qutool.vercel.app',
         // secure: ENVIRONMENTS.DEVELOPING ? false : true,
         sameSite: 'none'
     },

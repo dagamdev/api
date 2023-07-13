@@ -13,7 +13,7 @@ exports.ENVIRONMENTS = {
     DOMAIN: process.env.DOMAIN || 'http://localhost:246',
     SESSION_SECRET: process.env.DOMAIN || 'HelloQutool',
     BOT_TOKEN: process.env.BOT_TOKEN,
-    PAGE_DOMAIN: process.env.PAGE_DOMAIN || 'http://localhost:3000',
+    PAGE_DOMAIN: process.env.PAGE_DOMAIN || 'https://qutool.vercel.app',
     DEVELOPING: process.env.DEVELOPING
 };
 exports.APP_ID = '09012004';
