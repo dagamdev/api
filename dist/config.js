@@ -18,6 +18,6 @@ exports.ENVIRONMENTS = {
 exports.APP_ID = '09012004';
 exports.PATH_PREFIX = '/api/v1/';
 exports.ORIGINS = [
-    'https://dg-my-portfolio.vercel.app/',
+    'https://dg-my-portfolio.vercel.app',
     'http://localhost:3000'
 ];
