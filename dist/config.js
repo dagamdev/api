@@ -17,6 +17,6 @@ exports.ENVIRONMENTS = {
 exports.APP_ID = '09012004';
 exports.PATH_PREFIX = '/api/v1/';
 exports.ORIGINS = [
-    'https://dagamdev.vercel.app/',
+    'https://dagamdev.vercel.app',
     exports.ENVIRONMENTS.DEVELOPING ? 'http://localhost:3000' : '',
 ];
