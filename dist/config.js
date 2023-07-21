@@ -8,8 +8,6 @@ exports.ENVIRONMENTS = {
     CONNECT_MONGO: process.env.MONGO_CONECT,
     SECRET: process.env.SECRET,
     DISCORD: process.env.DISCORD,
-    QUTOOL_ID: process.env.QUTOOL_ID || '935707268090056734',
-    QUTOOL_SECRET: process.env.QUTOOL_SECRET,
     DOMAIN: process.env.DOMAIN || 'http://localhost:246',
     SESSION_SECRET: process.env.DOMAIN || 'HelloQutool',
     BOT_TOKEN: process.env.BOT_TOKEN,
@@ -19,7 +17,6 @@ exports.ENVIRONMENTS = {
 exports.APP_ID = '09012004';
 exports.PATH_PREFIX = '/api/v1/';
 exports.ORIGINS = [
-    'http://localhost:3000',
-    'https://dg-my-portfolio.vercel.app',
-    'https://qutool.vercel.app'
+    'https://dagamdev.vercel.app/',
+    exports.ENVIRONMENTS.DEVELOPING ? 'http://localhost:3000' : '',
 ];

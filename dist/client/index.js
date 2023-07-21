@@ -25,6 +25,7 @@ exports.MyBot.on('messageCreate', messageCreate_1.messageCreateEvent);
 exports.MyBot.on('channelDelete', channelDelete_1.channelDeleteEvent);
 exports.MyBot.on('guildMemberAdd', memberAdd_1.memberAddEvent);
 exports.MyBot.on('guildMemberRemove', memberRemove_1.memberRemoveEvent);
+// MyBot.on('presenceUpdate', presenceUpdateEvent)
 //! Errors events
 exports.MyBot.on("shardError", (err) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(err);
