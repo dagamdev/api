@@ -3,14 +3,14 @@ import http from 'http'
 import { app } from '../app'
 import { connnectionEvent } from './events/connection'
 import type { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from '@/types'
-import { ORIGINS } from '../config'
+import { ORIGINS } from '../utils/config'
 
 export const server = http.createServer(app)
 export const io = new SocketServer<
-  ClientToServerEvents,
-  ServerToClientEvents,
-  InterServerEvents,
-  SocketData
+ClientToServerEvents,
+ServerToClientEvents,
+InterServerEvents,
+SocketData
 >(server, {
   cors: {
     origin: ORIGINS,

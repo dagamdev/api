@@ -4,13 +4,13 @@ import services from './analytics.services'
 const route = Router()
 
 route.route('/')
-.get(services.getAnalytics)
+  .get(services.getAnalytics)
 
 route.put('/views', services.additionView)
 
 route.route('/likes')
-.put(services.additionLike)
-.delete(services.subtractionLike)
+  .put(services.additionLike)
+  .delete(services.subtractionLike)
 
 route.get('/user/:id', services.getDiscordMe)
 

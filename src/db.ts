@@ -1,5 +1,5 @@
 import { connect, set } from 'mongoose'
-import { ENVIRONMENTS } from './config'
+import { ENVIRONMENTS } from './utils/config'
 import { type GuildMember } from 'discord.js'
 
 set('strictQuery', true)

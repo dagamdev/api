@@ -1,5 +1,5 @@
 export interface ServerToClientEvents {
-  
+
 }
 
 export interface ClientToServerEvents {
@@ -9,12 +9,12 @@ export interface ClientToServerEvents {
 }
 
 export interface InterServerEvents {
-  ping: () => void;
+  ping: () => void
 }
 
 export interface SocketData {
-  name: string;
-  age: number;
+  name: string
+  age: number
 }
 
 export interface IARoom {
@@ -33,10 +33,10 @@ export interface User {
 }
 
 export interface Guild {
-  id: string,
-  name: string,
-  icon: string | null,
-  owner: boolean,
-  permissions: string,
+  id: string
+  name: string
+  icon: string | null
+  owner: boolean
+  permissions: string
   features: string[]
 }
