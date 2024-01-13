@@ -1,4 +1,4 @@
-import { type Client } from 'discord.js'
+import { type Client, TextChannel } from 'discord.js'
 import type { IARoom, Languages } from '../types'
 
 const messagesIds = {
@@ -10,7 +10,7 @@ const messagesIds = {
 const infoIARoomsChannelId = '1098271613423718442'
 export async function getIARoomsInfo (lenguage: Languages, client: Client) {
   const IARoomsInfoCahnnel = client.channels.cache.get(infoIARoomsChannelId)
-  if (IARoomsInfoCahnnel?.isTextBased() === true) {
+  if (IARoomsInfoCahnnel instanceof TextChannel) {
     const IARoomsInfo = (await IARoomsInfoCahnnel.messages.fetch(messagesIds[lenguage])).content
     return IARoomsInfo
   }
@@ -19,7 +19,7 @@ export async function getIARoomsInfo (lenguage: Languages, client: Client) {
 const IARoomsChannelId = '1098273510276730960'
 export async function getRoomsData (client: Client): Promise<IARoom[] | undefined> {
   const IARoomsChannel = client.channels.cache.get(IARoomsChannelId)
-  if (IARoomsChannel?.isTextBased() === true) {
+  if (IARoomsChannel instanceof TextChannel) {
     const content: string = (await IARoomsChannel.messages.fetch('1098308109270782002')).content
     return JSON.parse(content)
   }
@@ -27,7 +27,7 @@ export async function getRoomsData (client: Client): Promise<IARoom[] | undefine
 
 export async function updateRoomsData (client: Client, roomsData: IARoom[]) {
   const IARoomsChannel = client.channels.cache.get(IARoomsChannelId)
-  if (IARoomsChannel?.isTextBased() === true) {
+  if (IARoomsChannel instanceof TextChannel) {
     const roomsMessage = await IARoomsChannel.messages.fetch('1098308109270782002')
     roomsMessage.edit({ content: JSON.stringify(roomsData) })
   }
