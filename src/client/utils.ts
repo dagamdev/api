@@ -1,5 +1,5 @@
 import { Client } from 'discord.js'
-import type { IARoom, Languages } from '../utils/types'
+import type { IARoom, Languages } from '../types'
 
 const messagesIds = {
   'en': '1098281335933632622',

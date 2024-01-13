@@ -1,6 +1,6 @@
 import { type Interaction, type CacheType, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, type GuildChannelCreateOptions } from "discord.js";
 import { getIARoomsInfo, getRoomsData, updateRoomsData } from "../utils";
-import type { Languages } from "../../utils/types";
+import type { Languages } from "../../types";
 import { MyBot as client } from "..";
 
 export async function interactionCreateEvent(int: Interaction<CacheType>) {

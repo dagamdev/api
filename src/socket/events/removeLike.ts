@@ -1,10 +1,10 @@
-import { Socket } from "socket.io";
-import { APP_ID } from "../../config";
-import { portfolioModel } from "../../models";
+import { Socket } from 'socket.io'
+import { APP_ID } from '../../config'
+import { WebAnalytics } from '../../models'
 
 
 export const removeLikeEvent = async (socket: Socket) => {
-  const portfolio = await portfolioModel.findById(APP_ID)
+  const portfolio = await WebAnalytics.findById(APP_ID)
   
   if(portfolio?.likes){
     portfolio.likes--

@@ -2,7 +2,7 @@ import express from 'express'
 import { PATH_PREFIX, ORIGINS } from './config'
 import cors from 'cors'
 
-import portfolioRoutes from './portfolio/portfolio.routes'
+import analyticsRoutes from './analytics/analytics.routes'
 
 
 export const app = express()
@@ -13,7 +13,7 @@ app.use(cors({
   credentials: true
 }))
 
-app.use(PATH_PREFIX, portfolioRoutes)
+app.use(PATH_PREFIX+'analytics', analyticsRoutes)
 
 app.get(PATH_PREFIX, (req, res) => {
   res.json({response: 'Hello, how are you?'})

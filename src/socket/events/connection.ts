@@ -4,7 +4,7 @@ import { addViewEvent } from './addView'
 import { removeLikeEvent } from './removeLike'
 import { MyBot as client } from '../../client'
 import { presenceUpdateEvent } from './presenceUpdate'
-import type { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from '@/utils/types'
+import type { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from '@/types'
 
 export let socket: any
 
