@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.memberAddEvent = void 0;
 function memberAddEvent(member) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (member.guild.id != '1082083606727508008')
+        if (member.guild.id !== '1082083606727508008')
             return;
         member.roles.add('1097551334644912148');
     });

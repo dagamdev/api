@@ -10,7 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.presenceUpdateEvent = void 0;
-const presenceUpdateEvent = (socket, presence) => __awaiter(void 0, void 0, void 0, function* () {
-    socket.emit('presenceUpdate', presence);
-});
+function presenceUpdateEvent(socket, presence) {
+    return __awaiter(this, void 0, void 0, function* () {
+        socket.emit('presenceUpdate', presence);
+    });
+}
 exports.presenceUpdateEvent = presenceUpdateEvent;

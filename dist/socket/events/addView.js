@@ -10,16 +10,34 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addViewEvent = void 0;
-const config_1 = require("../../config");
 const models_1 = require("../../models");
-const addViewEvent = (socket) => __awaiter(void 0, void 0, void 0, function* () {
-    const portfolio = yield models_1.portfolioModel.findById(config_1.APP_ID);
-    if (portfolio === null || portfolio === void 0 ? void 0 : portfolio.views) {
-        portfolio.views++;
-        socket.broadcast.emit('view', portfolio.views);
-        yield portfolio.save();
-    }
-    else
-        socket.broadcast.emit('view', 0);
-});
+function addViewEvent(socket, { id, browserID }) {
+    var _a;
+    return __awaiter(this, void 0, void 0, function* () {
+        const origin = (_a = socket.handshake.headers.origin) !== null && _a !== void 0 ? _a : 'none';
+        const updateConfig = [
+            { $inc: { view: 1 } },
+            { new: true }
+        ];
+        const byOrigin = id === undefined;
+        const schemaMethod = byOrigin ? models_1.WebAnalytics.findOneAndUpdate({ origin }, ...updateConfig) : models_1.WebAnalytics.findByIdAndUpdate(id, ...updateConfig);
+        const Analytics = yield schemaMethod;
+        if (Analytics === null) {
+            socket.emit('analytics', undefined);
+            return;
+        }
+        const browser = Analytics.browsers.find(b => b.id === browserID);
+        if (browser === undefined) {
+            Analytics.browsers.push({
+                id: browserID,
+                lastVisitAt: Date.now()
+            });
+            Analytics.save();
+            return;
+        }
+        browser.lastVisitAt = Date.now();
+        socket.emit('analytics', Analytics);
+        Analytics.save();
+    });
+}
 exports.addViewEvent = addViewEvent;

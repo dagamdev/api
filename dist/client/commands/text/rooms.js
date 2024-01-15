@@ -33,7 +33,7 @@ function roomsTextCommand(msg, client) {
                 label: 'Italiano',
                 emoji: '🇮🇹',
                 value: 'it-italiano'
-            },
+            }
         ]));
         const CreateIARoomBtn = new discord_js_1.ActionRowBuilder()
             .addComponents(new discord_js_1.ButtonBuilder()

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const socket_1 = require("./socket");
-const config_1 = require("./config");
+const config_1 = require("./utils/config");
 require("./db");
 require("./client");
 socket_1.server.listen(config_1.ENVIRONMENTS.PORT, () => {

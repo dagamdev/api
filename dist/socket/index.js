@@ -8,7 +8,7 @@ const socket_io_1 = require("socket.io");
 const http_1 = __importDefault(require("http"));
 const app_1 = require("../app");
 const connection_1 = require("./events/connection");
-const config_1 = require("../config");
+const config_1 = require("../utils/config");
 exports.server = http_1.default.createServer(app_1.app);
 exports.io = new socket_io_1.Server(exports.server, {
     cors: {

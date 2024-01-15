@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MyBot = void 0;
 const discord_js_1 = require("discord.js");
-const config_1 = require("../config");
+const config_1 = require("../utils/config");
 const ready_1 = require("./events/ready");
 const interactionCreate_1 = require("./events/interactionCreate");
 const memberRemove_1 = require("./events/memberRemove");
@@ -27,10 +27,10 @@ exports.MyBot.on('guildMemberAdd', memberAdd_1.memberAddEvent);
 exports.MyBot.on('guildMemberRemove', memberRemove_1.memberRemoveEvent);
 // MyBot.on('presenceUpdate', presenceUpdateEvent)
 //! Errors events
-exports.MyBot.on("shardError", (err) => __awaiter(void 0, void 0, void 0, function* () {
+exports.MyBot.on('shardError', (err) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(err);
 }));
-process.on("unhandledRejection", (err) => __awaiter(void 0, void 0, void 0, function* () {
+process.on('unhandledRejection', (err) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(err);
 }));
 exports.MyBot.login(config_1.ENVIRONMENTS.SECRET);

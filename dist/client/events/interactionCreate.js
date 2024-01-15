@@ -14,11 +14,12 @@ const discord_js_1 = require("discord.js");
 const utils_1 = require("../utils");
 const __1 = require("..");
 function interactionCreateEvent(int) {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         const { user, guild } = int;
         if (int.isStringSelectMenu()) {
             const { customId } = int;
-            if (customId == 'IARoomMenu') {
+            if (customId === 'IARoomMenu') {
                 const value = int.values[0];
                 const language = value.split('-')[0];
                 const IARoomsInfo = yield (0, utils_1.getIARoomsInfo)(language, __1.MyBot);
@@ -30,8 +31,8 @@ function interactionCreateEvent(int) {
                     .addComponents(new discord_js_1.ButtonBuilder()
                     .setEmoji('1098301518593142895')
                     .setStyle(discord_js_1.ButtonStyle.Primary)
-                    .setLabel(language == 'it' ? 'Creare' : 'Create')
-                    .setCustomId(language == 'it' ? 'createIARoomIT' : 'createIARoomEN'));
+                    .setLabel(language === 'it' ? 'Creare' : 'Create')
+                    .setCustomId(language === 'it' ? 'createIARoomIT' : 'createIARoomEN'));
                 yield int.reply({ ephemeral: true, embeds: [RoomsEb], components: [CreateIARoomBtn] });
             }
         }
@@ -41,22 +42,24 @@ function interactionCreateEvent(int) {
             const CreteRoomEb = new discord_js_1.EmbedBuilder();
             const IARoomsCategory = '1098102445915254846';
             const configCreate = {
-                parent: IARoomsCategory, name: user.tag, permissionOverwrites: [
+                parent: IARoomsCategory,
+                name: user.tag,
+                permissionOverwrites: [
                     {
                         id: user.id,
                         allow: ['ViewChannel', 'ManageChannels', 'ManageMessages', 'ManageThreads']
                     },
                     {
-                        id: (guild === null || guild === void 0 ? void 0 : guild.id) || '',
+                        id: (_a = guild === null || guild === void 0 ? void 0 : guild.id) !== null && _a !== void 0 ? _a : '',
                         deny: ['ViewChannel', 'CreateInstantInvite']
                     }
                 ]
             };
-            if (customId == 'createIARoomES') {
-                if (roomsData) {
-                    const room = roomsData.find(f => f.userId == user.id);
-                    if (room) {
-                        if (room.channelId) {
+            if (customId === 'createIARoomES') {
+                if (roomsData !== undefined) {
+                    const room = roomsData.find(f => f.userId === user.id);
+                    if (room !== undefined) {
+                        if (room.channelId !== undefined) {
                             CreteRoomEb.setTitle('❌ Error').setColor('Red')
                                 .setDescription(`Ya tienes un IA Room el cual es <#${room.channelId}>, solo puesdes tener uno.`);
                             yield int.reply({ ephemeral: true, embeds: [CreteRoomEb] });
@@ -64,7 +67,7 @@ function interactionCreateEvent(int) {
                         }
                     }
                     const chRoom = yield (guild === null || guild === void 0 ? void 0 : guild.channels.create(configCreate));
-                    if (room) {
+                    if (room !== undefined) {
                         room.channelId = chRoom === null || chRoom === void 0 ? void 0 : chRoom.id;
                     }
                     else {
@@ -82,11 +85,11 @@ function interactionCreateEvent(int) {
                         .setDescription('En estos momentos no tengo acceso a los datos, intentalo mas tarde.');
                 }
             }
-            if (customId == 'createIARoomEN') {
-                if (roomsData) {
-                    const room = roomsData.find(f => f.userId == user.id);
-                    if (room) {
-                        if (room.channelId) {
+            if (customId === 'createIARoomEN') {
+                if (roomsData !== undefined) {
+                    const room = roomsData.find(f => f.userId === user.id);
+                    if (room !== undefined) {
+                        if (room.channelId !== undefined) {
                             CreteRoomEb.setTitle('❌ Error').setColor('Red')
                                 .setDescription(`You already gave an IA Room which is <#${room.channelId}>, you can only have one.`);
                             yield int.reply({ ephemeral: true, embeds: [CreteRoomEb] });
@@ -94,7 +97,7 @@ function interactionCreateEvent(int) {
                         }
                     }
                     const chRoom = yield (guild === null || guild === void 0 ? void 0 : guild.channels.create(configCreate));
-                    if (room) {
+                    if (room !== undefined) {
                         room.channelId = chRoom === null || chRoom === void 0 ? void 0 : chRoom.id;
                     }
                     else {
@@ -112,23 +115,24 @@ function interactionCreateEvent(int) {
                         .setDescription("At the moment I don't have access to the data, please try again later.");
                 }
             }
-            if (customId == 'createIARoomIT') {
-                if (roomsData) {
-                    const room = roomsData.find(f => f.userId == user.id);
-                    if (room) {
-                        if (room.channelId) {
+            if (customId === 'createIARoomIT') {
+                if (roomsData !== undefined) {
+                    const room = roomsData.find(f => f.userId === user.id);
+                    if (room !== undefined) {
+                        if (room.channelId !== undefined) {
                             CreteRoomEb.setTitle('❌ Error').setColor('Red')
                                 .setDescription(`Hai già una IA Room che è <#${room.channelId}>, puoi averne solo una.`);
                         }
                     }
                     const chRoom = yield (guild === null || guild === void 0 ? void 0 : guild.channels.create(configCreate));
-                    if (room)
+                    if (room !== undefined)
                         room.channelId = chRoom === null || chRoom === void 0 ? void 0 : chRoom.id;
-                    else
+                    else {
                         roomsData.push({
                             userId: user.id,
                             channelId: chRoom === null || chRoom === void 0 ? void 0 : chRoom.id
                         });
+                    }
                     (0, utils_1.updateRoomsData)(__1.MyBot, roomsData);
                     CreteRoomEb.setTitle('✅ Éxito').setColor('Green')
                         .setDescription(`La tua IA Room è stata creata <#${chRoom === null || chRoom === void 0 ? void 0 : chRoom.id}>`);

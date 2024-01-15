@@ -10,16 +10,34 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeLikeEvent = void 0;
-const config_1 = require("../../config");
 const models_1 = require("../../models");
-const removeLikeEvent = (socket) => __awaiter(void 0, void 0, void 0, function* () {
-    const portfolio = yield models_1.portfolioModel.findById(config_1.APP_ID);
-    if (portfolio === null || portfolio === void 0 ? void 0 : portfolio.likes) {
-        portfolio.likes--;
-        socket.broadcast.emit('like', portfolio.likes);
-        yield portfolio.save();
-    }
-    else
-        socket.broadcast.emit('like', 0);
-});
+function removeLikeEvent(socket, { id, browserID }) {
+    var _a;
+    return __awaiter(this, void 0, void 0, function* () {
+        const origin = (_a = socket.handshake.headers.origin) !== null && _a !== void 0 ? _a : 'none';
+        const updateConfig = [
+            { $inc: { likes: -1 } },
+            { new: true }
+        ];
+        const byOrigin = id === undefined;
+        const schemaMethod = byOrigin ? models_1.WebAnalytics.findOneAndUpdate({ origin }, ...updateConfig) : models_1.WebAnalytics.findByIdAndUpdate(id, ...updateConfig);
+        const Analytics = yield schemaMethod;
+        if (Analytics === null) {
+            socket.emit('analytics', undefined);
+            return;
+        }
+        const browser = Analytics.browsers.find(b => b.id === browserID);
+        if (browser === undefined) {
+            Analytics.browsers.create({
+                id: browserID,
+                lastVisitAt: Date.now()
+            });
+            Analytics.save();
+            return;
+        }
+        browser.liked = false;
+        socket.emit('analytics', Analytics);
+        Analytics.save();
+    });
+}
 exports.removeLikeEvent = removeLikeEvent;

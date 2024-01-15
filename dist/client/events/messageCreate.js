@@ -12,7 +12,7 @@ function messageCreateEvent(msg) {
         return;
     const args = msg.content.slice(prefix.length).trim().split(/ +/g);
     const commandName = (_a = args.shift()) === null || _a === void 0 ? void 0 : _a.toLocaleLowerCase();
-    if (commandName == 'rooms')
+    if (commandName === 'rooms')
         (0, rooms_1.roomsTextCommand)(msg, __1.MyBot);
 }
 exports.messageCreateEvent = messageCreateEvent;

@@ -14,11 +14,11 @@ const utils_1 = require("../utils");
 const __1 = require("..");
 function memberRemoveEvent(mr) {
     return __awaiter(this, void 0, void 0, function* () {
-        if (mr.guild.id != '1082083606727508008')
+        if (mr.guild.id !== '1082083606727508008')
             return;
         const roomsData = yield (0, utils_1.getRoomsData)(__1.MyBot);
-        const room = roomsData === null || roomsData === void 0 ? void 0 : roomsData.find(f => f.userId == mr.id);
-        if (room && room.channelId) {
+        const room = roomsData === null || roomsData === void 0 ? void 0 : roomsData.find(f => f.userId === mr.id);
+        if ((room === null || room === void 0 ? void 0 : room.channelId) !== undefined) {
             mr.guild.channels.delete(room.channelId);
         }
     });
