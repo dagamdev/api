@@ -1,6 +1,6 @@
 {
   "name": "my-api",
-  "version": "1.1.6",
+  "version": "2.5.6",
   "description": "My api para mis proyectos",
   "main": "dist/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "dev": "ts-node-dev src/."
   },
   "keywords": [],
-  "author": "",
+  "author": "dagamdev",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.3.4",
