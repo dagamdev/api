@@ -1,20 +1,22 @@
-export interface ServerToClientEvents {
+import { type Socket } from 'socket.io'
+import type { Activity, ClientPresenceStatusData, PresenceStatus } from 'discord.js'
 
+export interface ServerToClientEvents {
+  analytics: (analytics: any) => void
+  presenceUpdate: (presence: CustomPresence) => void
 }
 
 export interface ClientToServerEvents {
-  addLike: () => void
-  removeLike: () => void
-  addView: () => void
+  addLike: ({ id, browserID }: AnalyticsEventsProps) => void
+  removeLike: ({ id, browserID }: AnalyticsEventsProps) => void
+  addView: ({ id, browserID }: AnalyticsEventsProps) => void
 }
 
-export interface InterServerEvents {
-  ping: () => void
-}
+export type SocketData = Socket<ClientToServerEvents, ServerToClientEvents>
 
-export interface SocketData {
-  name: string
-  age: number
+export interface AnalyticsEventsProps {
+  id?: string
+  browserID: string
 }
 
 export interface IARoom {
@@ -39,4 +41,10 @@ export interface Guild {
   owner: boolean
   permissions: string
   features: string[]
+}
+
+export interface CustomPresence {
+  status: PresenceStatus
+  activities: Activity[]
+  clientStatus: ClientPresenceStatusData | null
 }
