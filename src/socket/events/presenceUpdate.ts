@@ -1,5 +1,5 @@
-import { type Socket } from 'socket.io'
+import type { SocketData, CustomPresence } from '../../types'
 
-export const presenceUpdateEvent = async (socket: Socket, presence: any) => {
+export async function presenceUpdateEvent (socket: SocketData, presence: CustomPresence) {
   socket.emit('presenceUpdate', presence)
 }
