@@ -18,10 +18,3 @@ export const PATH_PREFIX = '/api/v1/'
 export const ORIGINS = [
   'https://dagamdev.vercel.app'
 ]
-
-if (typeof ENVIRONMENTS.DEVELOPING === 'string') {
-  ORIGINS.concat([
-    'http://localhost:3000',
-    'http://localhost:4321'
-  ])
-}
