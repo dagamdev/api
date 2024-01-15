@@ -1,13 +1,35 @@
-import { type Socket } from 'socket.io'
-import { APP_ID } from '../../utils/config'
 import { WebAnalytics } from '../../models'
+import type { SocketData, AnalyticsEventsProps } from '../../types'
 
-export const removeLikeEvent = async (socket: Socket) => {
-  const portfolio = await WebAnalytics.findById(APP_ID)
+export async function removeLikeEvent (socket: SocketData, { id, browserID }: AnalyticsEventsProps) {
+  const origin = socket.handshake.headers.origin ?? 'none'
 
-  if (typeof portfolio?.likes === 'number') {
-    portfolio.likes--
-    socket.broadcast.emit('like', portfolio.likes)
-    await portfolio.save()
-  } else socket.broadcast.emit('like', 0)
+  const updateConfig = [
+    { $inc: { likes: -1 } },
+    { new: true }
+  ]
+  const byOrigin = id === undefined
+  const schemaMethod = byOrigin ? WebAnalytics.findOneAndUpdate({ origin }, ...updateConfig) : WebAnalytics.findByIdAndUpdate(id, ...updateConfig)
+  const Analytics = await schemaMethod
+
+  if (Analytics === null) {
+    socket.emit('analytics', undefined)
+    return
+  }
+
+  const browser = Analytics.browsers.find(b => b.id === browserID)
+
+  if (browser === undefined) {
+    Analytics.browsers.create({
+      id: browserID,
+      lastVisitAt: Date.now()
+    })
+    Analytics.save()
+    return
+  }
+
+  browser.liked = false
+
+  socket.emit('analytics', Analytics)
+  Analytics.save()
 }
