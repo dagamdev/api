@@ -1,4 +1,4 @@
-import { DISCORD } from '@/utils/consts'
+import { DISCORD } from '../../utils/consts'
 import { type Presence } from 'discord.js'
 
 export function presenceUpdateEvent (oldPresence: Presence | null, newPresence: Presence) {
