@@ -4,58 +4,65 @@ import { MyBot as client } from '../client'
 import { type GuildMember } from 'discord.js'
 import axios from 'axios'
 
-async function getAnalytics ({ origin, id, browserID }: {
-  origin: string
+async function getAnalytics ({ id, origin, browserID }: {
   id?: string
-  browserID?: string
+  origin: string
+  browserID: string
 }) {
-  const Analytics = await (id !== undefined ? WebAnalytics.findByIdAndUpdate(id, { $inc: { views: 1 } }) : WebAnalytics.findOne({ origin }))
-  console.log(Analytics)
-  if (Analytics !== null) return Analytics
-  const newAnalytics = await WebAnalytics.create({ origin, browserIDs: [browserID] })
-  console.log(newAnalytics)
-  return newAnalytics
-}
+  const Analytics = await (id === undefined ? WebAnalytics.findOne({ origin }) : WebAnalytics.findById(id))
 
-async function additionViews (id?: string) {
-  const portfolio = await WebAnalytics.findById(id)
-
-  if (portfolio !== null) {
-    portfolio.views++
-    await portfolio.save()
-    return portfolio.views
+  if (Analytics === null) {
+    return await WebAnalytics.create({
+      origin,
+      browsers: [{
+        id: browserID,
+        lastVisitAt: Date.now()
+      }]
+    })
   }
 
-  return 0
-}
+  const browser = Analytics.browsers.find(b => b.id === browserID)
+  if (browser === undefined) return Analytics
 
-async function getLikes (id?: string) {
-  const portfolio = await WebAnalytics.findById(id)
-  return portfolio?.likes
-}
-
-async function additionLike (id?: string) {
-  const portfolio = await WebAnalytics.findById(id)
-
-  if (portfolio !== null) {
-    portfolio.likes++
-    await portfolio.save()
-    return portfolio.likes
+  if (Date.now() - browser.lastVisitAt >= 10 * 60 * 1000) {
+    browser.lastVisitAt = Date.now()
+    Analytics.views++
+    Analytics.save()
   }
 
-  return 0
+  return Analytics
 }
 
-async function subtractionLike (id?: string) {
-  const portfolio = await WebAnalytics.findById(id)
+async function additionLike ({ id, origin }: {
+  id?: string
+  origin: string
+}) {
+  const updateOptions = [
+    { $inc: { likes: 1 } },
+    { new: true }
+  ]
+  const Schema = id === undefined ? WebAnalytics.findByIdAndUpdate(id, ...updateOptions) : WebAnalytics.findOneAndUpdate({ origin }, ...updateOptions)
+  const Analytics = await Schema
 
-  if (portfolio !== null) {
-    portfolio.likes--
-    await portfolio.save()
-    return portfolio.likes
-  }
+  if (Analytics === null) return 0
 
-  return 0
+  return Analytics.likes
+}
+
+async function subtractionLike ({ id, origin }: {
+  id?: string
+  origin: string
+}) {
+  const updateOptions = [
+    { $inc: { likes: -1 } },
+    { new: true }
+  ]
+  const Schema = id === undefined ? WebAnalytics.findByIdAndUpdate(id, ...updateOptions) : WebAnalytics.findOneAndUpdate({ origin }, ...updateOptions)
+  const Analytics = await Schema
+
+  if (Analytics === null) return 0
+
+  return Analytics.likes
 }
 
 async function getDiscordMe (id: string): Promise<GuildMember | undefined> {
@@ -78,9 +85,7 @@ async function getAbout () {
 
 export default {
   getAnalytics,
-  additionViews,
 
-  getLikes,
   additionLike,
   subtractionLike,
 

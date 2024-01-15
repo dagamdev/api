@@ -5,23 +5,20 @@ async function getAnalytics (req: Request, res: Response) {
   try {
     const id = req.get('Id')
     const origin = req.get('Origin')
-    console.log(req.ip, req.ips)
+    const browserID = req.get('Browser-id')
 
-    if (origin === undefined) return res.status(404).json({ message: 'Not found' })
+    if (origin === undefined || browserID === undefined) {
+      return res.status(404).json({
+        message: 'Header not provided',
+        headers: {
+          origin: 'Url of the Web',
+          'browser-id': 'Id of the browser'
+        }
+      })
+    }
 
-    const analytics = await controllers.getAnalytics({ id, origin })
+    const analytics = await controllers.getAnalytics({ id, origin, browserID })
     res.status(200).json(analytics)
-  } catch (error: any) {
-    res.status(400).json({ message: error?.message })
-  }
-}
-
-async function additionView (req: Request, res: Response) {
-  try {
-    const { id } = req.params
-
-    const views = await controllers.additionViews(id)
-    res.status(200).json({ views })
   } catch (error: any) {
     res.status(400).json({ message: error?.message })
   }
@@ -29,7 +26,10 @@ async function additionView (req: Request, res: Response) {
 
 async function additionLike (req: Request, res: Response) {
   try {
-    const likes = await controllers.additionLike()
+    const id = req.get('Id')
+    const origin = req.get('Origin') ?? ''
+
+    const likes = await controllers.additionLike({ id, origin })
     res.status(200).json({ likes })
   } catch (error: any) {
     res.status(400).json({ message: error?.message })
@@ -38,7 +38,10 @@ async function additionLike (req: Request, res: Response) {
 
 async function subtractionLike (req: Request, res: Response) {
   try {
-    const likes = await controllers.subtractionLike()
+    const id = req.get('Id')
+    const origin = req.get('Origin') ?? ''
+
+    const likes = await controllers.subtractionLike({ id, origin })
     res.status(200).json({ likes })
   } catch (error: any) {
     res.status(400).json({ message: error?.message })
@@ -67,7 +70,6 @@ async function getAbout (req: Request, res: Response) {
 export default {
   getAnalytics,
 
-  additionView,
   additionLike,
   subtractionLike,
 

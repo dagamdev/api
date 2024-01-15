@@ -6,8 +6,6 @@ const route = Router()
 route.route('/')
   .get(services.getAnalytics)
 
-route.put('/views', services.additionView)
-
 route.route('/likes')
   .put(services.additionLike)
   .delete(services.subtractionLike)
