@@ -1,27 +1,25 @@
-import { type Socket } from 'socket.io'
-import { addLikesEvent } from './addLike'
 import { addViewEvent } from './addView'
+import { addLikeEvent } from './addLike'
 import { removeLikeEvent } from './removeLike'
 import { MyBot as client } from '../../client'
 import { presenceUpdateEvent } from './presenceUpdate'
-import type { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from '../../types'
+import type { CustomPresence, SocketData } from '../../types'
 import { DISCORD } from '../../utils/consts'
+import { type Activity } from 'discord.js'
 
-export let socket: any
+export const connnectionEvent = (socket: SocketData) => {
+  // console.log({ id: socket.id })
 
-export const connnectionEvent = (socket: Socket<ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData>) => {
-  console.log({ id: socket.id })
-
-  socket.on('addLike', () => {
-    addLikesEvent(socket)
+  socket.on('addView', (data) => {
+    addViewEvent(socket, data)
   })
 
-  socket.on('removeLike', () => {
-    removeLikeEvent(socket)
+  socket.on('addLike', (data) => {
+    addLikeEvent(socket, data)
   })
 
-  socket.on('addView', () => {
-    addViewEvent(socket)
+  socket.on('removeLike', (data) => {
+    removeLikeEvent(socket, data)
   })
 
   client.on('presenceUpdate', (oldPresence, newPresence) => {
@@ -30,10 +28,10 @@ export const connnectionEvent = (socket: Socket<ClientToServerEvents, InterServe
 
     // console.log({msg: 'Update user', newPresence})
 
-    const activities = newPresence?.activities.map((m: any) => ({ ...m, emoji: m.emoji?.name }))
-    const updatePresence = {
-      activities,
+    const activities = newPresence?.activities.map((m: Activity) => ({ ...m, emoji: m.emoji?.name })) as Activity[]
+    const updatePresence: CustomPresence = {
       status: newPresence.status,
+      activities,
       clientStatus: newPresence.clientStatus
     }
 
