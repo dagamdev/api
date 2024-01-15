@@ -19,9 +19,3 @@ exports.PATH_PREFIX = '/api/v1/';
 exports.ORIGINS = [
     'https://dagamdev.vercel.app'
 ];
-if (typeof exports.ENVIRONMENTS.DEVELOPING === 'string') {
-    exports.ORIGINS.concat([
-        'http://localhost:3000',
-        'http://localhost:4321'
-    ]);
-}
