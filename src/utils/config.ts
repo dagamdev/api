@@ -13,12 +13,15 @@ export const ENVIRONMENTS = {
   DEVELOPING: process.env.DEVELOPING
 }
 
-export const APP_ID = '09012004'
-
 export const PATH_PREFIX = '/api/v1/'
 
 export const ORIGINS = [
-  'https://dagamdev.vercel.app',
-  ENVIRONMENTS.DEVELOPING ?? 'http://localhost:3000',
-  'http://localhost:4321'
+  'https://dagamdev.vercel.app'
 ]
+
+if (typeof ENVIRONMENTS.DEVELOPING === 'string') {
+  ORIGINS.concat([
+    'http://localhost:3000',
+    'http://localhost:4321'
+  ])
+}
