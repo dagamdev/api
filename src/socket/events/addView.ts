@@ -5,7 +5,7 @@ export async function addViewEvent (socket: SocketData, { id, browserID }: Analy
   const origin = socket.handshake.headers.origin ?? 'none'
 
   const updateConfig = [
-    { $inc: { view: 1 } },
+    { $inc: { views: 1 } },
     { new: true }
   ]
   const byOrigin = id === undefined
