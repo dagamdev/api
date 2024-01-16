@@ -4,16 +4,22 @@ import type { SocketData, AnalyticsEventsProps } from '../../types'
 export async function addLikeEvent (socket: SocketData, { id, browserID }: AnalyticsEventsProps) {
   const origin = socket.handshake.headers.origin ?? 'none'
 
-  const updateConfig = [
-    { $inc: { likes: 1 } },
-    { new: true }
-  ]
   const byOrigin = id === undefined
-  const schemaMethod = byOrigin ? WebAnalytics.findOneAndUpdate({ origin }, ...updateConfig) : WebAnalytics.findByIdAndUpdate(id, ...updateConfig)
+  const schemaMethod = byOrigin ? WebAnalytics.findOne({ origin }) : WebAnalytics.findById(id)
   const Analytics = await schemaMethod
 
   if (Analytics === null) {
-    socket.emit('analytics', undefined)
+    const NewAnalytics = await WebAnalytics.create({
+      origin,
+      browsers: [
+        {
+          id: browserID,
+          liked: true,
+          lastVisitAt: Date.now()
+        }
+      ]
+    })
+    socket.broadcast.emit('analytics', NewAnalytics)
     return
   }
 
@@ -25,12 +31,15 @@ export async function addLikeEvent (socket: SocketData, { id, browserID }: Analy
       liked: true,
       lastVisitAt: Date.now()
     })
-    Analytics.save()
+    await Analytics.save()
+    socket.broadcast.emit('analytics', Analytics)
     return
   }
 
-  browser.liked = true
+  if (!browser.liked) {
+    browser.liked = true
+    Analytics.save()
+  }
 
-  socket.emit('analytics', Analytics)
-  Analytics.save()
+  socket.broadcast.emit('analytics', Analytics)
 }
