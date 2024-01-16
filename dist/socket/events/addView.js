@@ -11,33 +11,46 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addViewEvent = void 0;
 const models_1 = require("../../models");
+const config_1 = require("../../utils/config");
+const __1 = require("..");
 function addViewEvent(socket, { id, browserID }) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         const origin = (_a = socket.handshake.headers.origin) !== null && _a !== void 0 ? _a : 'none';
-        const updateConfig = [
-            { $inc: { view: 1 } },
-            { new: true }
-        ];
         const byOrigin = id === undefined;
-        const schemaMethod = byOrigin ? models_1.WebAnalytics.findOneAndUpdate({ origin }, ...updateConfig) : models_1.WebAnalytics.findByIdAndUpdate(id, ...updateConfig);
+        const schemaMethod = byOrigin ? models_1.WebAnalytics.findOne({ origin }) : models_1.WebAnalytics.findById(id);
         const Analytics = yield schemaMethod;
         if (Analytics === null) {
-            socket.emit('analytics', undefined);
+            const NewAnalytics = yield models_1.WebAnalytics.create({
+                origin,
+                browsers: [
+                    {
+                        id: browserID,
+                        lastVisitAt: Date.now()
+                    }
+                ]
+            });
+            __1.io.emit('analytics', NewAnalytics);
             return;
         }
         const browser = Analytics.browsers.find(b => b.id === browserID);
         if (browser === undefined) {
+            Analytics.views++;
             Analytics.browsers.push({
                 id: browserID,
+                liked: false,
                 lastVisitAt: Date.now()
             });
-            Analytics.save();
+            yield Analytics.save();
+            __1.io.emit('analytics', Analytics);
             return;
         }
-        browser.lastVisitAt = Date.now();
-        socket.emit('analytics', Analytics);
-        Analytics.save();
+        if (Date.now() - browser.lastVisitAt >= config_1.VISIT_COOLDOWN_TIME) {
+            browser.lastVisitAt = Date.now();
+            Analytics.views++;
+            Analytics.save();
+        }
+        __1.io.emit('analytics', Analytics);
     });
 }
 exports.addViewEvent = addViewEvent;

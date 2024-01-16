@@ -12,7 +12,7 @@ exports.app = (0, express_1.default)();
 exports.app.disable('x-powered-by');
 exports.app.use(express_1.default.json());
 exports.app.use((0, cors_1.default)({
-    origin: config_1.ENVIRONMENTS.DEVELOPING === undefined ? config_1.ORIGINS : '*',
+    origin: config_1.ORIGINS,
     credentials: true
 }));
 exports.app.use(config_1.PATH_PREFIX + 'analytics', analytics_routes_1.default);

@@ -15,29 +15,38 @@ function removeLikeEvent(socket, { id, browserID }) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         const origin = (_a = socket.handshake.headers.origin) !== null && _a !== void 0 ? _a : 'none';
-        const updateConfig = [
-            { $inc: { likes: -1 } },
-            { new: true }
-        ];
         const byOrigin = id === undefined;
-        const schemaMethod = byOrigin ? models_1.WebAnalytics.findOneAndUpdate({ origin }, ...updateConfig) : models_1.WebAnalytics.findByIdAndUpdate(id, ...updateConfig);
+        const schemaMethod = byOrigin ? models_1.WebAnalytics.findOne({ origin }) : models_1.WebAnalytics.findById(id);
         const Analytics = yield schemaMethod;
         if (Analytics === null) {
-            socket.emit('analytics', undefined);
+            const NewAnalytics = yield models_1.WebAnalytics.create({
+                origin,
+                browsers: [
+                    {
+                        id: browserID,
+                        lastVisitAt: Date.now()
+                    }
+                ]
+            });
+            socket.broadcast.emit('analytics', NewAnalytics);
             return;
         }
         const browser = Analytics.browsers.find(b => b.id === browserID);
         if (browser === undefined) {
-            Analytics.browsers.create({
+            Analytics.browsers.push({
                 id: browserID,
+                liked: false,
                 lastVisitAt: Date.now()
             });
-            Analytics.save();
+            yield Analytics.save();
+            socket.broadcast.emit('analytics', Analytics);
             return;
         }
-        browser.liked = false;
-        socket.emit('analytics', Analytics);
-        Analytics.save();
+        if (browser.liked) {
+            browser.liked = false;
+            Analytics.save();
+        }
+        socket.broadcast.emit('analytics', Analytics);
     });
 }
 exports.removeLikeEvent = removeLikeEvent;
