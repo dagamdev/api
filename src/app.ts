@@ -1,5 +1,5 @@
 import express from 'express'
-import { ENVIRONMENTS, PATH_PREFIX, ORIGINS } from './utils/config'
+import { PATH_PREFIX, ORIGINS } from './utils/config'
 import cors from 'cors'
 
 import analyticsRoutes from './analytics/analytics.routes'
@@ -10,7 +10,7 @@ app.disable('x-powered-by')
 
 app.use(express.json())
 app.use(cors({
-  origin: ENVIRONMENTS.DEVELOPING === undefined ? ORIGINS : '*',
+  origin: ORIGINS,
   credentials: true
 }))
 

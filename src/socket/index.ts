@@ -3,12 +3,12 @@ import http from 'http'
 import { app } from '../app'
 import { connnectionEvent } from './events/connection'
 import type { ServerToClientEvents, ClientToServerEvents } from '../types'
-import { ENVIRONMENTS, ORIGINS } from '../utils/config'
+import { ORIGINS } from '../utils/config'
 
 export const server = http.createServer(app)
-export const io = new SocketServer<ServerToClientEvents, ClientToServerEvents>(server, {
+export const io = new SocketServer<ClientToServerEvents, ServerToClientEvents>(server, {
   cors: {
-    origin: ENVIRONMENTS.DEVELOPING === undefined ? ORIGINS : '*',
+    origin: ORIGINS,
     credentials: true
   }
 })
