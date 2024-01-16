@@ -1,5 +1,6 @@
 import { WebAnalytics } from '../../models'
 import type { SocketData, AnalyticsEventsProps } from '../../types'
+import { io } from '..'
 
 export async function removeLikeEvent (socket: SocketData, { id, browserID }: AnalyticsEventsProps) {
   const origin = socket.handshake.headers.origin ?? 'none'
@@ -18,7 +19,7 @@ export async function removeLikeEvent (socket: SocketData, { id, browserID }: An
         }
       ]
     })
-    socket.broadcast.emit('analytics', NewAnalytics)
+    io.emit('analytics', NewAnalytics)
     return
   }
 
@@ -32,7 +33,7 @@ export async function removeLikeEvent (socket: SocketData, { id, browserID }: An
       lastVisitAt: Date.now()
     })
     await Analytics.save()
-    socket.broadcast.emit('analytics', Analytics)
+    io.emit('analytics', Analytics)
     return
   }
 
@@ -42,5 +43,5 @@ export async function removeLikeEvent (socket: SocketData, { id, browserID }: An
     await Analytics.save()
   }
 
-  socket.broadcast.emit('analytics', Analytics)
+  io.emit('analytics', Analytics)
 }
