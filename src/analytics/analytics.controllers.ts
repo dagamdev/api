@@ -22,11 +22,12 @@ async function getAnalytics ({ id, origin, browserID }: {
   }
 
   const browser = Analytics.browsers.find(b => b.id === browserID)
-  if (browser === undefined) return Analytics
-
-  if (Date.now() - browser.lastVisitAt >= 10 * 60 * 1000) {
-    browser.lastVisitAt = Date.now()
-    Analytics.views++
+  if (browser === undefined) {
+    Analytics.browsers.push({
+      id: browserID,
+      liked: false,
+      lastVisitAt: Date.now()
+    })
     Analytics.save()
   }
 
