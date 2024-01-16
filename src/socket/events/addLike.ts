@@ -26,6 +26,7 @@ export async function addLikeEvent (socket: SocketData, { id, browserID }: Analy
   const browser = Analytics.browsers.find(b => b.id === browserID)
 
   if (browser === undefined) {
+    Analytics.likes++
     Analytics.browsers.push({
       id: browserID,
       liked: true,
@@ -37,8 +38,9 @@ export async function addLikeEvent (socket: SocketData, { id, browserID }: Analy
   }
 
   if (!browser.liked) {
+    Analytics.likes++
     browser.liked = true
-    Analytics.save()
+    await Analytics.save()
   }
 
   socket.broadcast.emit('analytics', Analytics)

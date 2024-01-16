@@ -25,6 +25,7 @@ export async function removeLikeEvent (socket: SocketData, { id, browserID }: An
   const browser = Analytics.browsers.find(b => b.id === browserID)
 
   if (browser === undefined) {
+    Analytics.likes--
     Analytics.browsers.push({
       id: browserID,
       liked: false,
@@ -36,8 +37,9 @@ export async function removeLikeEvent (socket: SocketData, { id, browserID }: An
   }
 
   if (browser.liked) {
+    Analytics.likes--
     browser.liked = false
-    Analytics.save()
+    await Analytics.save()
   }
 
   socket.broadcast.emit('analytics', Analytics)
