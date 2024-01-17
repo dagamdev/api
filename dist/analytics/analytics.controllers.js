@@ -8,14 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const models_1 = require("../models");
 const config_1 = require("../utils/config");
 const client_1 = require("../client");
-const axios_1 = __importDefault(require("axios"));
 function getAnalytics({ id, origin, browserID }) {
     return __awaiter(this, void 0, void 0, function* () {
         const Analytics = yield (id === undefined ? models_1.WebAnalytics.findOne({ origin }) : models_1.WebAnalytics.findById(id));
@@ -73,12 +69,13 @@ function getDiscordMe(id) {
         const member = server === null || server === void 0 ? void 0 : server.members.cache.get(id);
         const presence = member === null || member === void 0 ? void 0 : member.presence;
         const activities = (_a = member === null || member === void 0 ? void 0 : member.presence) === null || _a === void 0 ? void 0 : _a.activities.map((m) => { var _a; return (Object.assign(Object.assign({}, m), { emoji: (_a = m.emoji) === null || _a === void 0 ? void 0 : _a.name })); });
-        const user = yield (0, axios_1.default)('https://discord.com/api/v10/users/@me', {
+        const userData = yield fetch('https://discord.com/api/v10/users/@me', {
             headers: {
                 Authorization: `${config_1.ENVIRONMENTS.DISCORD}`
             }
         });
-        return Object.assign(Object.assign(Object.assign({}, user.data), { presence: Object.assign(Object.assign({}, presence), { activities }) }), member);
+        const user = yield userData.json();
+        return Object.assign(Object.assign(Object.assign({}, user), { presence: Object.assign(Object.assign({}, presence), { activities }) }), member);
     });
 }
 function getAbout() {

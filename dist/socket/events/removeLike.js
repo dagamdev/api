@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeLikeEvent = void 0;
 const models_1 = require("../../models");
+const __1 = require("..");
 function removeLikeEvent(socket, { id, browserID }) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
@@ -28,25 +29,27 @@ function removeLikeEvent(socket, { id, browserID }) {
                     }
                 ]
             });
-            socket.broadcast.emit('analytics', NewAnalytics);
+            __1.io.emit('analytics', NewAnalytics);
             return;
         }
         const browser = Analytics.browsers.find(b => b.id === browserID);
         if (browser === undefined) {
+            Analytics.likes--;
             Analytics.browsers.push({
                 id: browserID,
                 liked: false,
                 lastVisitAt: Date.now()
             });
             yield Analytics.save();
-            socket.broadcast.emit('analytics', Analytics);
+            __1.io.emit('analytics', Analytics);
             return;
         }
         if (browser.liked) {
+            Analytics.likes--;
             browser.liked = false;
-            Analytics.save();
+            yield Analytics.save();
         }
-        socket.broadcast.emit('analytics', Analytics);
+        __1.io.emit('analytics', Analytics);
     });
 }
 exports.removeLikeEvent = removeLikeEvent;
