@@ -2,7 +2,6 @@ import { WebAnalytics } from '../models'
 import { ENVIRONMENTS } from '../utils/config'
 import { MyBot as client } from '../client'
 import { type GuildMember } from 'discord.js'
-import axios from 'axios'
 
 async function getAnalytics ({ id, origin, browserID }: {
   id?: string
@@ -71,12 +70,13 @@ async function getDiscordMe (id: string): Promise<GuildMember | undefined> {
   const member: any = server?.members.cache.get(id)
   const presence = member?.presence
   const activities = member?.presence?.activities.map((m: any) => ({ ...m, emoji: m.emoji?.name }))
-  const user = await axios('https://discord.com/api/v10/users/@me', {
+  const userData = await fetch('https://discord.com/api/v10/users/@me', {
     headers: {
       Authorization: `${ENVIRONMENTS.DISCORD}`
     }
   })
-  return { ...user.data, presence: { ...presence, activities }, ...member }
+  const user = await userData.json()
+  return { ...user, presence: { ...presence, activities }, ...member }
 }
 
 async function getAbout () {
