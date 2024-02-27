@@ -3,6 +3,7 @@ import { PATH_PREFIX, ORIGINS } from './utils/config'
 import cors from 'cors'
 
 import analyticsRoutes from './analytics/analytics.routes'
+import webRoutes from './web/web.routes'
 
 export const app = express()
 
@@ -15,6 +16,7 @@ app.use(cors({
 }))
 
 app.use(PATH_PREFIX + 'analytics', analyticsRoutes)
+app.use(PATH_PREFIX + 'web', webRoutes)
 
 app.get(PATH_PREFIX, (req, res) => {
   res.json({ response: 'Hello, how are you?' })
