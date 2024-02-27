@@ -36,7 +36,7 @@ function getWebIcon(req, res) {
             const htmlText = yield response.text();
             // console.log(htmlText)
             if (!(htmlText.includes('<link') && htmlText.includes('rel="icon'))) {
-                res.sendFile(node_path_1.default.join(__dirname, '/world.svg'));
+                // res.sendFile(path.join(__dirname, '../../public/world.svg'))
                 const browser = yield puppeteer_1.default.launch({
                     headless: false
                     // slowMo: 100
@@ -51,6 +51,7 @@ function getWebIcon(req, res) {
                 });
                 yield browser.close();
                 console.log(iconUrl);
+                res.sendFile(node_path_1.default.join(__dirname, '../../public/world.svg'));
                 return;
             }
             const firstLinkIndex = htmlText.indexOf('<link');

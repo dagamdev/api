@@ -27,7 +27,7 @@ async function getWebIcon (req: Request, res: Response) {
     const htmlText = await response.text()
     // console.log(htmlText)
     if (!(htmlText.includes('<link') && htmlText.includes('rel="icon'))) {
-      res.sendFile(path.join(__dirname, '/world.svg'))
+      // res.sendFile(path.join(__dirname, '../../public/world.svg'))
       const browser = await puppeteer.launch({
         headless: false
         // slowMo: 100
@@ -43,6 +43,7 @@ async function getWebIcon (req: Request, res: Response) {
       await browser.close()
       console.log(iconUrl)
 
+      res.sendFile(path.join(__dirname, '../../public/world.svg'))
       return
     }
     const firstLinkIndex = htmlText.indexOf('<link')
