@@ -96,6 +96,7 @@ function getWebIcon(req, res) {
             // res.json({ message: 'hello web icon', url, iconHref })
         }
         catch (error) {
+            console.log(error);
             res.json(error);
         }
     });

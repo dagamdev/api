@@ -93,6 +93,7 @@ async function getWebIcon (req: Request, res: Response) {
 
     // res.json({ message: 'hello web icon', url, iconHref })
   } catch (error) {
+    console.log(error)
     res.json(error)
   }
 }
