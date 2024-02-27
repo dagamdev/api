@@ -10,12 +10,12 @@ export const ENVIRONMENTS = {
   SESSION_SECRET: process.env.DOMAIN ?? 'HelloQutool',
   BOT_TOKEN: process.env.BOT_TOKEN,
   PAGE_DOMAIN: process.env.PAGE_DOMAIN ?? 'https://qutool.vercel.app',
-  DEVELOPING: process.env.DEVELOPING
+  IN_DEVELOPING: process.env.DEVELOPING !== undefined
 }
 
 export const PATH_PREFIX = '/api/v1/'
 
-export const ORIGINS = ENVIRONMENTS.DEVELOPING === undefined
+export const ORIGINS = ENVIRONMENTS.IN_DEVELOPING
   ? [
       'https://dagamdev.vercel.app'
     ]
