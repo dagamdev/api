@@ -5,6 +5,8 @@ import './client'
 
 const { PORT, IN_DEVELOPING } = ENVIRONMENTS
 
+console.log(`Node.js ${process.version}`)
+
 server.listen(PORT, () => {
   console.log(`🏃 Server is runing in the port ${PORT} | http${IN_DEVELOPING
     ? ''
