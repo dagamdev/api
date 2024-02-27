@@ -13,10 +13,10 @@ exports.ENVIRONMENTS = {
     SESSION_SECRET: (_b = process.env.DOMAIN) !== null && _b !== void 0 ? _b : 'HelloQutool',
     BOT_TOKEN: process.env.BOT_TOKEN,
     PAGE_DOMAIN: (_c = process.env.PAGE_DOMAIN) !== null && _c !== void 0 ? _c : 'https://qutool.vercel.app',
-    DEVELOPING: process.env.DEVELOPING
+    IN_DEVELOPING: process.env.DEVELOPING !== undefined
 };
 exports.PATH_PREFIX = '/api/v1/';
-exports.ORIGINS = exports.ENVIRONMENTS.DEVELOPING === undefined
+exports.ORIGINS = exports.ENVIRONMENTS.IN_DEVELOPING
     ? [
         'https://dagamdev.vercel.app'
     ]
