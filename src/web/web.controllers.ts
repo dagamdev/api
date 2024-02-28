@@ -1,4 +1,3 @@
-import path from 'node:path'
 import type { Request, Response } from 'express'
 import webValidations from '../validations/web'
 
@@ -31,7 +30,8 @@ async function getWebIcon (req: Request, res: Response) {
     const { url } = webValidations.iconQueries.parse(req.query)
 
     if (url === undefined) {
-      res.sendFile(path.join(__dirname, '/world.svg'))
+      res.setHeader('content-type', 'image/svg+xml')
+      res.send(svgWorld)
       return
     }
 
