@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const node_path_1 = __importDefault(require("node:path"));
 const web_1 = __importDefault(require("../validations/web"));
-const puppeteer_1 = __importDefault(require("puppeteer"));
 const svgWorld = `<svg
 xmlns="http://www.w3.org/2000/svg"
 width="24"
@@ -55,45 +54,24 @@ function getWebIcon(req, res) {
                 });
                 return;
             }
-            // '<link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">'
             const htmlText = yield response.text();
-            // console.log(htmlText)
             if (!(htmlText.includes('<link') && htmlText.includes('rel="icon'))) {
-                // console.log(publicPath)
                 res.setHeader('content-type', 'image/svg+xml');
-                // res.sendFile(path.join(__dirname, '../../public/world.svg'))
-                const browser = yield puppeteer_1.default.launch({
-                    headless: false
-                    // slowMo: 100
-                });
-                const page = yield browser.newPage();
-                yield page.goto(url); // Espera a que la página termine de cargar
-                // Ejecutar JavaScript en la página para obtener el enlace del icono
-                const iconUrl = yield page.evaluate(() => {
-                    var _a;
-                    const iconElement = (_a = document.querySelector('link[rel="icon"]')) !== null && _a !== void 0 ? _a : document.querySelector('link[rel="shortcut icon"]');
-                    return iconElement instanceof HTMLLinkElement ? iconElement.href : null;
-                });
-                yield browser.close();
-                console.log(iconUrl);
                 res.send(svgWorld);
                 return;
             }
             const firstLinkIndex = htmlText.indexOf('<link');
-            // console.log(htmlText.slice(firstLinkIndex))
             const startIcon = htmlText.indexOf('rel="icon"', firstLinkIndex);
             const startHref = htmlText.indexOf('href=', startIcon) + 6;
             let iconHref = htmlText.slice(startHref, htmlText.indexOf('"', startHref));
             if (!iconHref.startsWith('http')) {
-                iconHref = webUrl.origin + iconHref;
+                iconHref = `${webUrl.origin}/${iconHref}`;
             }
-            console.log({ iconHref });
             const iconRes = yield fetch(iconHref);
             const iconContentType = iconRes.headers.get('content-type');
             const buffer = Buffer.from(yield iconRes.arrayBuffer());
             res.setHeader('content-type', iconContentType !== null && iconContentType !== void 0 ? iconContentType : 'image/x-icon');
             res.send(buffer);
-            // res.json({ message: 'hello web icon', url, iconHref })
         }
         catch (error) {
             console.log(error);
