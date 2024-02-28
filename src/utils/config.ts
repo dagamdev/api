@@ -13,7 +13,7 @@ export const ENVIRONMENTS = {
   IN_DEVELOPING: process.env.DEVELOPING !== undefined
 }
 
-export const PATH_PREFIX = '/api/v1/'
+export const PATH_PREFIX = '/api/'
 
 export const ORIGINS = ENVIRONMENTS.IN_DEVELOPING
   ? [
