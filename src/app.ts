@@ -18,15 +18,15 @@ app.use(cors({
 app.use(PATH_PREFIX + 'analytics', analyticsRoutes)
 app.use(PATH_PREFIX + 'web', webRoutes)
 
-app.get(PATH_PREFIX, (req, res) => {
+app.get(PATH_PREFIX, (_, res) => {
   res.json({ response: 'Hello, how are you?' })
 })
 
-app.get(PATH_PREFIX + 'ping', (req, res) => {
+app.get(PATH_PREFIX + 'ping', (_, res) => {
   res.json({ message: 'pong' })
 })
 
-app.use((req, res) => {
+app.use((_, res) => {
   res.status(404).json({
     status: 404,
     message: 'This route does not exist'
