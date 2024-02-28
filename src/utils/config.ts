@@ -16,9 +16,9 @@ export const ENVIRONMENTS = {
 export const PATH_PREFIX = '/api/'
 
 export const ORIGINS = ENVIRONMENTS.IN_DEVELOPING
-  ? [
+  ? '*'
+  : [
       'https://dagamdev.vercel.app'
     ]
-  : '*'
 
 export const VISIT_COOLDOWN_TIME = 10 * 60 * 1000

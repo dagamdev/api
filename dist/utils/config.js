@@ -17,8 +17,8 @@ exports.ENVIRONMENTS = {
 };
 exports.PATH_PREFIX = '/api/';
 exports.ORIGINS = exports.ENVIRONMENTS.IN_DEVELOPING
-    ? [
+    ? '*'
+    : [
         'https://dagamdev.vercel.app'
-    ]
-    : '*';
+    ];
 exports.VISIT_COOLDOWN_TIME = 10 * 60 * 1000;
