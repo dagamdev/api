@@ -18,13 +18,13 @@ exports.app.use((0, cors_1.default)({
 }));
 exports.app.use(config_1.PATH_PREFIX + 'analytics', analytics_routes_1.default);
 exports.app.use(config_1.PATH_PREFIX + 'web', web_routes_1.default);
-exports.app.get(config_1.PATH_PREFIX, (req, res) => {
+exports.app.get(config_1.PATH_PREFIX, (_, res) => {
     res.json({ response: 'Hello, how are you?' });
 });
-exports.app.get(config_1.PATH_PREFIX + 'ping', (req, res) => {
+exports.app.get(config_1.PATH_PREFIX + 'ping', (_, res) => {
     res.json({ message: 'pong' });
 });
-exports.app.use((req, res) => {
+exports.app.use((_, res) => {
     res.status(404).json({
         status: 404,
         message: 'This route does not exist'

@@ -15,7 +15,7 @@ exports.ENVIRONMENTS = {
     PAGE_DOMAIN: (_c = process.env.PAGE_DOMAIN) !== null && _c !== void 0 ? _c : 'https://qutool.vercel.app',
     IN_DEVELOPING: process.env.DEVELOPING !== undefined
 };
-exports.PATH_PREFIX = '/api/v1/';
+exports.PATH_PREFIX = '/api/';
 exports.ORIGINS = exports.ENVIRONMENTS.IN_DEVELOPING
     ? [
         'https://dagamdev.vercel.app'
