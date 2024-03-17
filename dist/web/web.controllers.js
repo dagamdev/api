@@ -60,10 +60,34 @@ function getWebIcon(req, res) {
                 res.send(svgWorld);
                 return;
             }
-            const firstLinkIndex = htmlText.indexOf('<link');
-            const startIcon = htmlText.indexOf('rel="icon"', firstLinkIndex);
-            const startHref = htmlText.indexOf('href=', startIcon) + 6;
-            let iconHref = htmlText.slice(startHref, htmlText.indexOf('"', startHref));
+            function iconIncludes(text, index) {
+                return text.includes('rel="icon', index) || text.includes('rel="apple-touch-icon', index);
+            }
+            let iconHref = '';
+            let startPoint = 0;
+            let size = 0;
+            while (htmlText.includes('<link', startPoint) && iconIncludes(htmlText, startPoint)) {
+                const startLink = htmlText.indexOf('<link', startPoint);
+                const endLink = htmlText.indexOf('>', startLink);
+                const linkTag = htmlText.slice(startLink, endLink);
+                startPoint = endLink;
+                if (!iconIncludes(linkTag)) {
+                    continue;
+                }
+                const startHref = htmlText.indexOf('href=', startLink) + 6;
+                const endHref = htmlText.indexOf('"', startHref);
+                if (iconHref.length === 0)
+                    iconHref = htmlText.slice(startHref, endHref);
+                if (linkTag.includes('sizes=')) {
+                    const startSizes = htmlText.indexOf('sizes=', startLink) + 7;
+                    const endSizes = htmlText.indexOf('"', startSizes);
+                    const sizes = +htmlText.slice(startSizes, endSizes).split('x')[0];
+                    if (size < sizes) {
+                        iconHref = htmlText.slice(startHref, endHref);
+                        size = sizes;
+                    }
+                }
+            }
             if (!iconHref.startsWith('http')) {
                 iconHref = `${webUrl.origin}/${iconHref}`;
             }
@@ -74,11 +98,48 @@ function getWebIcon(req, res) {
             res.send(buffer);
         }
         catch (error) {
-            console.log(error);
+            console.log(req.query, error);
+            res.json(error);
+        }
+    });
+}
+function getWebData(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { url } = web_1.default.iconQueries.parse(req.query);
+            if (url === undefined) {
+                res.setHeader('content-type', 'image/svg+xml');
+                res.send(svgWorld);
+                return;
+            }
+            const response = yield fetch(url);
+            const contentType = response.headers.get('content-type');
+            if (contentType !== null && !(contentType.includes('text') && contentType.includes('html'))) {
+                res.json({
+                    error: 'The response content type is not text/html'
+                });
+                return;
+            }
+            const htmlText = yield response.text();
+            const titleTag = 'title>';
+            const startTitle = htmlText.indexOf(titleTag) + 6;
+            const endTitle = htmlText.indexOf(titleTag, startTitle);
+            const title = htmlText.slice(startTitle, endTitle - 2);
+            const startDescription = htmlText.indexOf('me="description');
+            const startContent = htmlText.indexOf('tent="', startDescription) + 6;
+            const endContent = htmlText.indexOf('"', startContent);
+            const description = htmlText.slice(startContent, endContent);
+            res.json({
+                title,
+                description
+            });
+        }
+        catch (error) {
             res.json(error);
         }
     });
 }
 exports.default = {
-    getWebIcon
+    getWebIcon,
+    getWebData
 };

@@ -7,4 +7,5 @@ const express_1 = require("express");
 const web_controllers_1 = __importDefault(require("./web.controllers"));
 const route = (0, express_1.Router)();
 route.get('/icon', web_controllers_1.default.getWebIcon);
+route.get('/data', web_controllers_1.default.getWebData);
 exports.default = route;

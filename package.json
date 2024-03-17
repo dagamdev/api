@@ -1,6 +1,6 @@
 {
   "name": "my-api",
-  "version": "2.6.8",
+  "version": "2.7.8",
   "description": "My api para mis proyectos",
   "main": "dist/index.js",
   "scripts": {
