@@ -1,5 +1,5 @@
 "use strict";
-var _a, _b, _c;
+var _a, _b, _c, _d, _e;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VISIT_COOLDOWN_TIME = exports.ORIGINS = exports.PATH_PREFIX = exports.ENVIRONMENTS = void 0;
 const dotenv_1 = require("dotenv");
@@ -16,9 +16,5 @@ exports.ENVIRONMENTS = {
     IN_DEVELOPING: process.env.DEVELOPING !== undefined
 };
 exports.PATH_PREFIX = '/api/';
-exports.ORIGINS = exports.ENVIRONMENTS.IN_DEVELOPING
-    ? '*'
-    : [
-        'https://dagamdev.vercel.app'
-    ];
+exports.ORIGINS = (_e = (_d = process.env.ORIGINS) === null || _d === void 0 ? void 0 : _d.split(/ +/g)) !== null && _e !== void 0 ? _e : '*';
 exports.VISIT_COOLDOWN_TIME = 10 * 60 * 1000;
