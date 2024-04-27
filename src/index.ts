@@ -1,7 +1,6 @@
 import { server } from './socket'
 import { ENVIRONMENTS } from './utils/config'
 import './db'
-import './client'
 
 const { PORT, IN_DEVELOPING } = ENVIRONMENTS
 

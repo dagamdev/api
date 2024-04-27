@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const socket_1 = require("./socket");
 const config_1 = require("./utils/config");
 require("./db");
-require("./client");
 const { PORT, IN_DEVELOPING } = config_1.ENVIRONMENTS;
 console.log(`Node.js ${process.version}`);
 socket_1.server.listen(PORT, () => {
