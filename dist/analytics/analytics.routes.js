@@ -11,6 +11,4 @@ route.route('/')
 route.route('/likes')
     .put(analytics_services_1.default.additionLike)
     .delete(analytics_services_1.default.subtractionLike);
-route.get('/user/:id', analytics_services_1.default.getDiscordMe);
-route.get('/about', analytics_services_1.default.getAbout);
 exports.default = route;

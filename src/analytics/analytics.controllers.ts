@@ -1,7 +1,4 @@
 import { WebAnalytics } from '../models'
-import { ENVIRONMENTS } from '../utils/config'
-import { MyBot as client } from '../client'
-import { type GuildMember } from 'discord.js'
 
 async function getAnalytics ({ id, origin, browserID }: {
   id?: string
@@ -65,31 +62,9 @@ async function subtractionLike ({ id, origin }: {
   return Analytics.likes
 }
 
-async function getDiscordMe (id: string): Promise<GuildMember | undefined> {
-  const server = client.guilds.cache.get('1064289165879025836')
-  const member: any = server?.members.cache.get(id)
-  const presence = member?.presence
-  const activities = member?.presence?.activities.map((m: any) => ({ ...m, emoji: m.emoji?.name }))
-  const userData = await fetch('https://discord.com/api/v10/users/@me', {
-    headers: {
-      Authorization: `${ENVIRONMENTS.DISCORD}`
-    }
-  })
-  const user = await userData.json()
-  return { ...user, presence: { ...presence, activities }, ...member }
-}
-
-async function getAbout () {
-  const channel = client.channels.cache.get('1090725845427048589')
-  if (channel !== undefined && channel.isTextBased()) return (await channel.messages.fetch('1090725868797702307')).content
-}
-
 export default {
   getAnalytics,
 
   additionLike,
-  subtractionLike,
-
-  getDiscordMe,
-  getAbout
+  subtractionLike
 }

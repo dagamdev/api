@@ -64,33 +64,8 @@ function subtractionLike(req, res) {
         }
     });
 }
-function getDiscordMe(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const { id } = req.params;
-            const data = yield analytics_controllers_1.default.getDiscordMe(id);
-            res.status(200).json(Object.assign({ presence: data === null || data === void 0 ? void 0 : data.presence }, data));
-        }
-        catch (error) {
-            res.status(400).json({ message: error === null || error === void 0 ? void 0 : error.message });
-        }
-    });
-}
-function getAbout(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const data = yield analytics_controllers_1.default.getAbout();
-            res.status(200).json(data);
-        }
-        catch (error) {
-            res.status(400).json({ message: error === null || error === void 0 ? void 0 : error.message });
-        }
-    });
-}
 exports.default = {
     getAnalytics,
     additionLike,
-    subtractionLike,
-    getDiscordMe,
-    getAbout
+    subtractionLike
 };

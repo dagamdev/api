@@ -10,8 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const models_1 = require("../models");
-const config_1 = require("../utils/config");
-const client_1 = require("../client");
 function getAnalytics({ id, origin, browserID }) {
     return __awaiter(this, void 0, void 0, function* () {
         const Analytics = yield (id === undefined ? models_1.WebAnalytics.findOne({ origin }) : models_1.WebAnalytics.findById(id));
@@ -62,33 +60,8 @@ function subtractionLike({ id, origin }) {
         return Analytics.likes;
     });
 }
-function getDiscordMe(id) {
-    var _a;
-    return __awaiter(this, void 0, void 0, function* () {
-        const server = client_1.MyBot.guilds.cache.get('1064289165879025836');
-        const member = server === null || server === void 0 ? void 0 : server.members.cache.get(id);
-        const presence = member === null || member === void 0 ? void 0 : member.presence;
-        const activities = (_a = member === null || member === void 0 ? void 0 : member.presence) === null || _a === void 0 ? void 0 : _a.activities.map((m) => { var _a; return (Object.assign(Object.assign({}, m), { emoji: (_a = m.emoji) === null || _a === void 0 ? void 0 : _a.name })); });
-        const userData = yield fetch('https://discord.com/api/v10/users/@me', {
-            headers: {
-                Authorization: `${config_1.ENVIRONMENTS.DISCORD}`
-            }
-        });
-        const user = yield userData.json();
-        return Object.assign(Object.assign(Object.assign({}, user), { presence: Object.assign(Object.assign({}, presence), { activities }) }), member);
-    });
-}
-function getAbout() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const channel = client_1.MyBot.channels.cache.get('1090725845427048589');
-        if (channel !== undefined && channel.isTextBased())
-            return (yield channel.messages.fetch('1090725868797702307')).content;
-    });
-}
 exports.default = {
     getAnalytics,
     additionLike,
-    subtractionLike,
-    getDiscordMe,
-    getAbout
+    subtractionLike
 };

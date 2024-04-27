@@ -48,31 +48,9 @@ async function subtractionLike (req: Request, res: Response) {
   }
 }
 
-async function getDiscordMe (req: Request, res: Response) {
-  try {
-    const { id } = req.params
-    const data = await controllers.getDiscordMe(id)
-    res.status(200).json({ presence: data?.presence, ...data })
-  } catch (error: any) {
-    res.status(400).json({ message: error?.message })
-  }
-}
-
-async function getAbout (req: Request, res: Response) {
-  try {
-    const data = await controllers.getAbout()
-    res.status(200).json(data)
-  } catch (error: any) {
-    res.status(400).json({ message: error?.message })
-  }
-}
-
 export default {
   getAnalytics,
 
   additionLike,
-  subtractionLike,
-
-  getDiscordMe,
-  getAbout
+  subtractionLike
 }
