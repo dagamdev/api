@@ -1,5 +1,5 @@
 "use strict";
-var _a, _b, _c, _d, _e;
+var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VISIT_COOLDOWN_TIME = exports.ORIGINS = exports.PATH_PREFIX = exports.ENVIRONMENTS = void 0;
 const dotenv_1 = require("dotenv");
@@ -7,14 +7,8 @@ const dotenv_1 = require("dotenv");
 exports.ENVIRONMENTS = {
     PORT: process.env.PORT,
     CONNECT_MONGO: process.env.MONGO_CONECT,
-    SECRET: process.env.SECRET,
-    DISCORD: process.env.DISCORD,
-    DOMAIN: (_a = process.env.DOMAIN) !== null && _a !== void 0 ? _a : 'http://localhost:246',
-    SESSION_SECRET: (_b = process.env.DOMAIN) !== null && _b !== void 0 ? _b : 'HelloQutool',
-    BOT_TOKEN: process.env.BOT_TOKEN,
-    PAGE_DOMAIN: (_c = process.env.PAGE_DOMAIN) !== null && _c !== void 0 ? _c : 'https://qutool.vercel.app',
     IN_DEVELOPING: process.env.DEVELOPING !== undefined
 };
 exports.PATH_PREFIX = '/api/';
-exports.ORIGINS = (_e = (_d = process.env.ORIGINS) === null || _d === void 0 ? void 0 : _d.split(/ +/g)) !== null && _e !== void 0 ? _e : '*';
+exports.ORIGINS = (_b = (_a = process.env.ORIGINS) === null || _a === void 0 ? void 0 : _a.split(/ +/g)) !== null && _b !== void 0 ? _b : '*';
 exports.VISIT_COOLDOWN_TIME = 10 * 60 * 1000;
